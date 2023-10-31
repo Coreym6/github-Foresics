@@ -33,7 +33,7 @@ import os
 import hashlib
 import struct
 from hashlib import file_digest
-These are the imports from extractor.py, look into the from hashlib import file_disgest'''
+'''
 
 
 ''' signature feed in; this can be done in multiple ways but either one had an array filled in 
