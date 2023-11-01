@@ -110,6 +110,8 @@ png'''
 #def docx 
 #def png 
 
+def pdf_recov():
+    print('Here is the recovery of the pdf file')
 
 
 
