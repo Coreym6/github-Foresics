@@ -40,6 +40,9 @@ from hashlib import file_digest
 The b, we got from this stack overflow article. 
 https://stackoverflow.com/questions/27178366/why-does-bytes5-return-b-x00-x00-x00-x00-x00-instead-of-b-x05
 Signature information was taken from https://www.garykessler.net/library/file_sigs.html'''
+
+# this is to add in the different file types that might be added in later.
+File_variation = ['MPG','PDF','BMP','GIF','JPG','DOCX','AVI','PNG']
 file_sigs = {
     '.pdf': [
         b'\x25\x50\x44\x46',
@@ -80,7 +83,7 @@ file_sigs = {
     ],
     '.bmp': [
         b'\x42\x4D....\x00\x00\x00\x00',
-        None
+        None # because this doesn't have a proper footer 
     ],
     '.docx': [
         b'\x50\x4B\x03\x04\x14\x00\x06\x00',
@@ -127,7 +130,7 @@ https://github.com/zleggett/FileRecovery/blob/main/FileRecovery.py
 This can prove to be useful for the hash function. 
 Also this is for the SHA-256 hash function 
 import hashlib
-
+Buff_size = 65
 inputFile = raw_input("Enter the name of the file:")
 openedFile = open(inputFile)
 readFile = openedFile.read()
