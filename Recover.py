@@ -43,10 +43,13 @@ Signature information was taken from https://www.garykessler.net/library/file_si
 
 # this is to add in the different file types that might be added in later.
 
-File_variation = ['PDF','JPG','PNG','GIF','AVI','MPG','BMP','DOCX']
-disk = ['Project2.dd']# might have to remove this a little bit later 
+#File_variation = ['PDF','JPG','PNG','GIF','AVI','MPG','BMP','DOCX']
+#disk = ['Project2.dd']# might have to remove this a little bit later 
+headers_list =[]
+footers_list =[] 
+# included both list for the sake of not having to do an interation for each file, better for organization overall 
 print('This is the start of the code')
-print("disk = ['Project2.dd']")
+#print("disk = ['Project2.dd']")
 
 file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
     '.pdf': [
