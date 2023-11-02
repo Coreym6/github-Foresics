@@ -96,8 +96,9 @@ file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
     ] # no need to worry about the zip file anymore 
 }
 
-headers_recov =[]
-footers_recov =[]
+headers_list =[]
+footers_list =[]
+# included both for the sake of organization overall 
 
 #def init_
 # add method to find the zip of a file 
@@ -111,7 +112,7 @@ bmp
 docx 
 png'''
 
-#def pdf 
+#def pdf_recov 
 #def jpg_recov 
 #def png_recov
 #def gif_recov
@@ -119,7 +120,7 @@ png'''
 #def mpg_recov
 #def bmp_recov
 #def docx_recov
-#def png 
+#def png_recov
 
 def pdf_recov(headers_recov, footers_recov, file_name, file_extension, footer_length, pdf_stream):
 
