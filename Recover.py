@@ -42,7 +42,8 @@ https://stackoverflow.com/questions/27178366/why-does-bytes5-return-b-x00-x00-x0
 Signature information was taken from https://www.garykessler.net/library/file_sigs.html'''
 
 # this is to add in the different file types that might be added in later.
-File_variation = ['MPG','PDF','BMP','GIF','JPG','DOCX','AVI','PNG']
+
+File_variation = ['PDF','JPG','PNG','GIF','AVI','MPG','BMP','DOCX']
 disk = ['Project2.dd']# might have to remove this a little bit later 
 
 file_sigs = {
@@ -93,6 +94,9 @@ file_sigs = {
     ]
 }
 
+headers_recov =[]
+footers_recov =[]
+
 #def init_
 # add method to find the zip of a file 
 '''pdf
@@ -115,9 +119,69 @@ png'''
 #def docx 
 #def png 
 
-def pdf_recov():
+def pdf_recov(headers_recov, footers_recov, file_name, file_extension, footer_length, pdf_stream):
+
+    header_count = len(headers_recov)
+    footer_count = len(footers_recov)
+    
+    """
+    If no headers found, return.
+    """
+    if header_count == 0:
+        return
+
+    """
+    Loop through the header locations
+    """
+    for index in range(header_count):
+
+        """
+        The start of the file is always the current header in the sequence
+        """
+        file_start = headers_recov[index]
+
+        """
+        If not the last header, then the footer for this file
+        will be the footer with an offset right after
+        the current header since PDF files have one footer per file
+        """
+        footer_iterator = 0
+        while footer_iterator < footer_count and footers_recov[footer_iterator] < headers_recov[index]:
+            footer_iterator += 1
+        
+        if footer_iterator < footer_count:
+            file_end = footers_recov[footer_iterator] + footer_length
+        else:
+            # If no footer found for this header, set the end of the file to the end of the PDF stream.
+            file_end = len(pdf_stream)
+
+        """
+        Carve bytes out from the PDF stream
+        """
+        output_name = file_name + '_' + str(index) + '.' + file_extension
+        output_data = pdf_stream[file_start:file_end]
+
+        # Write the carved PDF data to a file
+        with open(output_name, 'wb') as output_file:
+            output_file.write(output_data)
+
+        file_element = get_empty_recovered_element()
+        file_element['name'] = output_name
+        file_element['start'] = file_start
+        file_element['end'] = file_end
+        file_element['sha'] = get_sha256(output_name)  # Calculate the SHA-256 hash of the carved file
+        recovered_files.append(file_element)
     print('Here is the recovery of the pdf file')
 
+
+
+'''
+print("\nFile Name: " + name)
+                print("Starting Offset: " + hex(offset))
+                print("End Offset: " + hex(end))
+                print("SHA-256 Hash: " + file_hash)
+potential print function 
+'''
 
 
 
