@@ -43,6 +43,8 @@ Signature information was taken from https://www.garykessler.net/library/file_si
 
 # this is to add in the different file types that might be added in later.
 File_variation = ['MPG','PDF','BMP','GIF','JPG','DOCX','AVI','PNG']
+disk = ['Project2.dd']# might have to remove this a little bit later 
+
 file_sigs = {
     '.pdf': [
         b'\x25\x50\x44\x46',
