@@ -48,7 +48,7 @@ disk = ['Project2.dd']# might have to remove this a little bit later
 print('This is the start of the code')
 print("disk = ['Project2.dd']")
 
-file_sigs = {
+file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
     '.pdf': [
         b'\x25\x50\x44\x46',
         b'\x0A\x25\x25\x45\x4F\x46\x0A',
@@ -80,7 +80,7 @@ file_sigs = {
     ],
     '.avi': [
     b'\x52\x49\x46\x46....\x41\x56\x49\x20\x4C\x49\x53\x54',
-    None
+    None # does not have a proper footer either
     ],
     '.mpg': [
         b'\x00\x00\x01\xB3.\x00',
@@ -93,7 +93,7 @@ file_sigs = {
     '.docx': [
         b'\x50\x4B\x03\x04\x14\x00\x06\x00',
         b'\x50\x4B\x05\x06'
-    ]
+    ] # no need to worry about the zip file anymore 
 }
 
 headers_recov =[]
@@ -112,13 +112,13 @@ docx
 png'''
 
 #def pdf 
-#def jpg 
-#def png 
-#def gif 
-#def avi 
-#def mpg 
-#def bmp 
-#def docx 
+#def jpg_recov 
+#def png_recov
+#def gif_recov
+#def avi_recov
+#def mpg_recov
+#def bmp_recov
+#def docx_recov
 #def png 
 
 def pdf_recov(headers_recov, footers_recov, file_name, file_extension, footer_length, pdf_stream):
