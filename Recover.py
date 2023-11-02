@@ -34,7 +34,7 @@ import hashlib
 import struct
 from hashlib import file_digest
 '''
-
+# file carver for jpeg, link https://stackoverflow.com/questions/48276658/python-jpeg-file-carver-takes-incredibly-long-on-small-dumps
 
 ''' signature feed in; this can be done in multiple ways but either one had an array filled in 
 The b, we got from this stack overflow article. 
@@ -45,6 +45,8 @@ Signature information was taken from https://www.garykessler.net/library/file_si
 
 File_variation = ['PDF','JPG','PNG','GIF','AVI','MPG','BMP','DOCX']
 disk = ['Project2.dd']# might have to remove this a little bit later 
+print('This is the start of the code')
+print("disk = ['Project2.dd']")
 
 file_sigs = {
     '.pdf': [
@@ -96,7 +98,7 @@ file_sigs = {
 
 headers_recov =[]
 footers_recov =[]
-print('Hello world')
+
 #def init_
 # add method to find the zip of a file 
 '''pdf
@@ -174,9 +176,67 @@ def pdf_recov(headers_recov, footers_recov, file_name, file_extension, footer_le
     print('Here is the recovery of the pdf file')
 
 
+import re
 
-'''
-print("\nFile Name: " + name)
+def find_offsets(binary_data, regex_pattern):
+    offsets = []
+    for match in regex_pattern.finditer(binary_data):
+        offsets.append(match.start())
+    return offsets
+
+def carve_file(binary_data, offset, output_directory, file_extension, headers):
+    if offset in headers:
+        return  # Skip offsets that have already been carved
+
+    # Get the contents of the file from the header offset to the end of the file
+    file_data = binary_data[offset:]
+
+    # If the file type is a PDF, find the offset of the next header match
+    if file_extension == '.pdf':
+        next_offset = None
+        for match in headers[file_extension].finditer(binary_data[offset + 1:]):
+            next_offset = match.start() + offset
+            break
+
+        if next_offset is not None:
+            file_data = binary_data[offset:next_offset]
+
+    # Create a unique output filename for each carved file
+    output_filename = f"{output_directory}/carved_file_{offset}{file_extension}"
+
+    # Write the carved file to a file
+    with open(output_filename, 'wb') as output_file:
+        output_file.write(file_data)
+
+    # Mark this offset as carved
+    headers.add(offset)
+
+    print(f"Carved {file_extension} file saved as: {output_filename}")
+
+# List of file types and their header regex patterns
+signatures = {
+    '.pdf': re.compile(b'%PDF-\\d\.\\d'),
+    '.avi': re.compile(b'\x52\x49\x46\x46'),
+    # Add other file types and their regex patterns as needed
+}
+
+# Example usage:
+output_directory = "carved_files"
+binary_data = b"..."  # Replace with your binary data
+
+# Initialize a set to keep track of carved headers
+carved_headers = set()
+
+for file_extension, header_pattern in signatures.items():
+    header_offsets = find_offsets(binary_data, header_pattern)
+
+    for offset in header_offsets:
+        carve_file(binary_data, offset, output_directory, file_extension, carved_headers)
+
+
+
+
+''' print("\nFile Name: " + name)
                 print("Starting Offset: " + hex(offset))
                 print("End Offset: " + hex(end))
                 print("SHA-256 Hash: " + file_hash)
