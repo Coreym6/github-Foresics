@@ -28,7 +28,7 @@ FileTypes["BMP"] = b"\x42\x4D\x76\x30\x01"
 
 # Read file
 if(len(sys.argv) != 2):
-    print("Missing disk file. Format python3 FileRecovery.py File.dd ")
+    print("Missing disk file. Format python3 FileRecovery.py Project2.dd ")
     exit(1)
 
 diskFile = sys.argv[1]
