@@ -196,21 +196,21 @@ for pdf_info in headers_list:
 
     # You can further process or save this information as needed
     print('Here is the recovery of the pdf file')
-    print('')
-    
-# here is the start of the jpg recovery function 
-def jpg_recov(meta_jpg, output, headers_list):
-    head_comp = re.compile(b'%JPG-\\d\.\\d')
+    print('')    
+
+    # start of the pdf_recovery 
+def pdf_recov(meta_pdf, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+    head_comp = re.compile(b'%PDF-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
 
-    header_offsets = [match.start() for match in head_comp.finditer(meta_jpg)]
+    header_offsets = [match.start() for match in head_comp.finditer(meta_pdf)]
     index = 0
     while index < len(header_offsets):
         header_offset = header_offsets[index]
         file_start = header_offset
         footer_offset = None
 
-        match = Footer_compo.search(meta_jpg[header_offset:])
+        match = Footer_compo.search(meta_pdf[header_offset:])
         if match:
             footer_offset = match.start() + header_offset
 
@@ -222,46 +222,56 @@ def jpg_recov(meta_jpg, output, headers_list):
 
         if file_end is not None:
             # Carve the PDF file
-            meta_jpg = meta_jpg[file_start:file_end]
+            meta_pdf = meta_pdf[file_start:file_end]
 
             # Create a dictionary to store information about the carved PDF file
-            jpg_info = {
+            pdf_info = {
                 'header_offset': header_offset,
-                'file_name': f"{output}/carved_jpg_{index}.jpg",
-                'file_data': meta_jpg
+                'file_name': f"{output}/recovered{index}.pdf",
+                'file_data': meta_pdf
             }
 
             # Append the dictionary to the header_list
-            headers_list.append(jpg_info)
+            headers_list.append(pdf_info)
 
         index += 1
 
             # Append the dictionary to the header_list
-        headers_list.append(jpg_info)
+        headers_list.append(pdf_info)
 
 # Example usage:
-output = "carved_pdfs"
+output = "Project 2/Great_RecoveredFiles"
+output2 = "Project 2/Cities_RecoveredFiles"
 
 # Replace pdf_data with your actual PDF data in binary format
-meta_jpg = open("sample.pdf", "rb").read()
+meta_pdf = open("Great.pdf", "rb").read()
+meta_pdf2 = open("Cities.pdf", "rb").read()
+'''footer_data = "This is some footer data"
+footer_list.append(footer_data)
 
+# Add more data to the footer list
+another_footer_data = "Another piece of footer data"
+footer_list.append(another_footer_data)
+
+# The footer_list now contains the added data
+print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-jpg_recov(meta_jpg, output, headers_list)
+pdf_recov(meta_pdf, meta_pdf2, output, headers_list, 'Great')
+pdf_recov(meta_pdf, meta_pdf2, output, headers_list, 'Cities')
 
 # Now, header_list contains dictionaries with information about the carved PDF files
-for jpg_info in headers_list:
-    header_offset = jpg_info['header_offset']
-    file_name = jpg_info['file_name']
-    file_data = jpg_info['file_data']
-# is there any way to shorten this ????
-    # You can further process or save this information as needed
-    print('Here is the recovery of the jpg file')
-    print (' Here is the jpg list+ headers_list')
-'''import re
+for pdf_info in headers_list:
+    header_offset = pdf_info['header_offset']
+    file_name = pdf_info['file_name']
+    file_data = pdf_info['file_data']
 
-def find_offsets(binary_data, regex_pattern):
+    # You can further process or save this information as needed
+    print('Here is the recovery of the pdf file')
+    print('')
+''' '''
+'''def find_offsets(binary_data, regex_pattern):
     offsets = []
     for match in regex_pattern.finditer(binary_data):
         offsets.append(match.start())
@@ -316,7 +326,7 @@ for file_extension, head_comp in signatures.items():
     for offset in header_offsets:
         carve_file(binary_data, offset, output_directory, file_extension, carved_headers)
 '''
-
+''''''
 
 
 ''' print("\nFile Name: " + name)
