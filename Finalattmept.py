@@ -59,7 +59,7 @@ for match in pdf_footer_sig.finditer(disk_image_data2):
     print(f"Found footer pattern at offset: {offset}")
 print("List of matched ending offsets:", matched_footer_offsets)
 
-hash_object = hashlib.sha256(disk_image_data, disk_image_data2)
+hash_object = hashlib.sha256(disk_image_data)
 hash_hex = hash_object.hexdigest() # added this to test out SHA-256 hashlib
 print("SHA-256 Hash of the PDF file:", hash_hex)
 # okay now that we have this information, let's attempt to carve the file.
