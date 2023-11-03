@@ -126,10 +126,13 @@ docx
 
 # start of the pdf_recovery 
 def pdf_recov(meta_pdf, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
-    head_comp = re.compile(b'%PDF-\\d\.\\d')
+    head_comp = re.compile(b'%PDF-\\d\.\\d')# pass in header offset 
+    #remember to do print function, and put it in the list. 
     Footer_compo = re.compile(b'%%EOF')
-
-    header_offsets = [match.start() for match in head_comp.finditer(meta_pdf)]
+# do same for footer 
+# find footer in disk
+#find header in disk
+    header_offsets = [match.start() for match in head_comp.finditer(meta_pdf)] # this is correct method,open diskimage.dd(head))
     index = 0
     while index < len(header_offsets):
         header_offset = header_offsets[index]
@@ -270,7 +273,7 @@ for jpg_info in headers_list:
     file_data = jpg_info['file_data']
 
     # You can further process or save this information as needed
-    print('Here is the recovery of the jpg file')
+    print('Here is the recovery of the jpg files')
     print('')
 #start of the png recovery function 
 def png_recov(meta_png, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
@@ -344,9 +347,12 @@ for png_info in headers_list:
     print('Here is the recovery of the png file')
     print('')  
 
-def gif_recov(meta_gif, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+def gif_recov(meta_gif, output, headers_list, footers_list):
+     # wouldn't I still have to account for the footer as well. 
     head_comp = re.compile(b'%Gif-\\d\.\\d')
+    # put the footer offset instead
     Footer_compo = re.compile(b'%%EOF')
+    re.Match(Footer_compo, file)
 
     header_offsets = [match.start() for match in head_comp.finditer(meta_gif)]
     index = 0
@@ -441,21 +447,23 @@ def avi_recov(meta_avi, meta_avi2, output, headers_list, footers_list): # wouldn
         if file_end is not None:
             # Carve the PDF file
             meta_avi = meta_avi[file_start:file_end]
-
+            sha256_hash = hashlib.sha256(meta_avi).hexdigest() if meta_avi is not None else None
             # Create a dictionary to store information about the carved PDF file
-            gif_info = {
+            avi_data = meta_avi[file_start:file_end] if file_end is not None else None
+            avi_info = {
                 'header_offset': header_offset,
                 'file_name': f"{output}/recovered{index}.avi",
-                'file_data': meta_avi
+                'file_data': meta_avi,
+                'sha256_hash': sha256_hash
             }
 
             # Append the dictionary to the header_list
-            headers_list.append(gif_info)
+            headers_list.append(avi_info)
 
         index += 1
 
             # Append the dictionary to the header_list
-        headers_list.append(gif_info)
+        headers_list.append(avi_info)
 
 # Example usage:
 output = "Project 2/Bear_RecoveredFiles"
@@ -484,9 +492,11 @@ for avi_info in headers_list:
     header_offset = avi_info['header_offset']
     file_name = avi_info['file_name']
     file_data = avi_info['file_data']
+    
 
     # You can further process or save this information as needed
     print('Here is the recovery of the avi files')
+    print(f'SHA-256 Hash: {sha256_hash}')
     print('')       
 
 # Start of the bmp recover function 
