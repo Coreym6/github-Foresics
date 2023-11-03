@@ -106,7 +106,7 @@ file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
 # add method to find the zip of a file 
 '''pdf(got this function done)
 jpg (got this function done)
-png 
+png (got this function done)
 gif 
 avi 
 mpg 
@@ -318,6 +318,77 @@ output = "Project 2/Dice_RecoveredFiles"
 
 # Replace pdf_data with your actual PDF data in binary format
 meta_png = open("Dice.png", "rb").read()
+
+
+'''footer_data = "This is some footer data"
+footer_list.append(footer_data)
+
+# Add more data to the footer list
+another_footer_data = "Another piece of footer data"
+footer_list.append(another_footer_data)
+
+# The footer_list now contains the added data
+print(footer_list)'''
+# Already have a list that exist already. 
+#header_list = []
+
+png_recov(meta_png, output, headers_list, 'Dice')
+
+# Now, header_list contains dictionaries with information about the carved PDF files
+for png_info in headers_list:
+    header_offset = png_info['header_offset']
+    file_name = png_info['file_name']
+    file_data = png_info['file_data']
+
+    # You can further process or save this information as needed
+    print('Here is the recovery of the png file')
+    print('')  
+
+def png_recov(meta_png, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+    head_comp = re.compile(b'%PNG-\\d\.\\d')
+    Footer_compo = re.compile(b'%%EOF')
+
+    header_offsets = [match.start() for match in head_comp.finditer(meta_png)]
+    index = 0
+    while index < len(header_offsets):
+        header_offset = header_offsets[index]
+        file_start = header_offset
+        footer_offset = None
+
+        match = Footer_compo.search(meta_png[header_offset:])
+        if match:
+            footer_offset = match.start() + header_offset
+
+        if footer_offset is not None:
+            file_end = footer_offset + 20  # Assuming a 20-byte footer length
+        else:
+            # If no footer found for this header, set the end of the file to None.
+            file_end = None
+
+        if file_end is not None:
+            # Carve the PDF file
+            meta_png = meta_png[file_start:file_end]
+
+            # Create a dictionary to store information about the carved PDF file
+            png_info = {
+                'header_offset': header_offset,
+                'file_name': f"{output}/recovered{index}.png",
+                'file_data': meta_png
+            }
+
+            # Append the dictionary to the header_list
+            headers_list.append(png_info)
+
+        index += 1
+
+            # Append the dictionary to the header_list
+        headers_list.append(png_info)
+
+# Example usage:
+output = "Project 2/Dice_RecoveredFiles"
+
+# Replace pdf_data with your actual PDF data in binary format
+meta_png = open("Dice.png", "rb").read()
 '''footer_data = "This is some footer data"
 footer_list.append(footer_data)
 
@@ -341,6 +412,7 @@ for png_info in headers_list:
     # You can further process or save this information as needed
     print('Here is the recovery of the png file')
     print('')    
+    
 ''' '''
 '''def find_offsets(binary_data, regex_pattern):
     offsets = []
