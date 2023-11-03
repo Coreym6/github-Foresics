@@ -258,14 +258,16 @@ print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-jpg_recov(meta_jpg, meta_pdf2,meta_jpg3,output, headers_list, 'Great')
-jpg_recov(meta_jpg, meta_pdf2,meta_jpg3, output, headers_list, 'Cities')
+jpg_recov(meta_jpg, meta_pdf2,meta_jpg3,output, headers_list, 'Flags')
+jpg_recov(meta_jpg, meta_pdf2,meta_jpg3, output, headers_list, 'Iron')
+jpg_recov(meta_jpg, meta_pdf2,meta_jpg3, output, headers_list, 'Auburn')
+
 
 # Now, header_list contains dictionaries with information about the carved PDF files
-for pdf_info in headers_list:
-    header_offset = pdf_info['header_offset']
-    file_name = pdf_info['file_name']
-    file_data = pdf_info['file_data']
+for jpg_info in headers_list:
+    header_offset = jpg_info['header_offset']
+    file_name = jpg_info['file_name']
+    file_data = jpg_info['file_data']
 
     # You can further process or save this information as needed
     print('Here is the recovery of the jpg file')
