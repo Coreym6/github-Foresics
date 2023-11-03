@@ -51,7 +51,7 @@ matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
     disk_image_data2 = file.read()
 
-for match in pdf_sig.finditer(disk_image_data):
+for match in pdf_footer_sig.finditer(disk_image_data): 
     offset = match.start()
     matched_footer_offsets.append(offset) # and possibly this to another list
     print(f"Found footer pattern at offset: {offset}")
