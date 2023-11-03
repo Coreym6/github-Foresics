@@ -13,6 +13,7 @@ def pdf_recov(meta_pdf, output_directory, headers_list, pdf_sig, pdf_footer):
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
     header_to_bytes = pdf_sig.encode('utf-8') 
+    footer_to_bytes = pdf_footer.encode('utf-8')
     #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
     b'\x0A\x25\x25\x45\x4F\x46\x0A',
@@ -36,7 +37,7 @@ for match in pdf_sig.finditer(disk_image_data):
 # Print the list of matched offsets
 print("List of matched offsets:", matched_offsets)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
-footer_to_bytes = pdf_footer.encode('utf-8')
+
 matched_footer_offsets =[]
 with open("Project2.dd", "rb") as file:
     disk_image_data2 = file.read()
