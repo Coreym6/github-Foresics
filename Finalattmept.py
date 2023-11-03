@@ -2,7 +2,8 @@ import re
 print("hello world")
 def pdf_recov(meta_pdf, output_directory, headers_list, header_sig):
     # Compile the regex pattern using the header signature
-    header_sig = re.compile(b'\x25\x50\x44\x46') #changed the pattern to the header of an pdf
+    header_sig = re.compile(b'\x25\x50\x44\x46') 
+    #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
     header_to_bytes = header_sig.encode('utf-8') 
     #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
