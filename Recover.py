@@ -154,7 +154,7 @@ def pdf_recov(meta_pdf, output, headers_list): # wouldn't I still have to accoun
             # Create a dictionary to store information about the carved PDF file
             pdf_info = {
                 'header_offset': header_offset,
-                'file_name': f"{output}/carved_pdf_{index}.pdf",
+                'file_name': f"{output}/recovered{index}.pdf",
                 'file_data': meta_pdf
             }
 
@@ -167,8 +167,8 @@ def pdf_recov(meta_pdf, output, headers_list): # wouldn't I still have to accoun
         headers_list.append(pdf_info)
 
 # Example usage:
-output = "Project 2/PDF1_CarvedFiles"
-output2 = "Project 2/PDF2_CarvedFiles"
+output = "Project 2/Great_RecoveredFiles"
+output2 = "Project 2/Cities_RecoveredFiles"
 
 # Replace pdf_data with your actual PDF data in binary format
 meta_pdf = open("Great.pdf", "rb").read()
