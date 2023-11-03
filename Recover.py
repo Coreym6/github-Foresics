@@ -104,15 +104,15 @@ file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
 
 #def init_
 # add method to find the zip of a file 
-'''pdf
-jpg 
+'''pdf(got this function done)
+jpg (got this function done)
 png 
 gif 
 avi 
 mpg 
 bmp
 docx 
-png'''
+'''
 
 #def pdf_recov 
 #def jpg_recov 
