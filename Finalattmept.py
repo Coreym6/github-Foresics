@@ -7,7 +7,7 @@ footer_patterns = [
     b'\x0A\x25\x25\x45\x4F\x46\x0A',
     b'\x0A\x25\x25\x45\x4F\x46'
 ]
-
+# add in temp_filename variables
 pdf_footer_sig = re.compile(b'|'.join(footer_patterns))
 #pdf_footer = re.compile(b'\x0A\x25\x25\x45\x4F\x46\x0A')
 #b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
@@ -61,7 +61,7 @@ print("List of matched ending offsets:", matched_footer_offsets)
 
 # Read data between header and footer offsets
 carved_data = file.read(matched_footer_offsets - matched_offsets + len(pdf_footer_sig.pattern))
-
+i=1
         # Create a new file to save the carved data
 with open(f"carved_file_{i}.pdf", "wb") as carved_file:
             carved_file.write(carved_data)
