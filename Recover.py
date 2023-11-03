@@ -108,8 +108,8 @@ file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
 jpg (got this function done)
 png (got this function done)
 gif (done with this function)
-avi 
-mpg 
+avi (done)
+mpg (done)
 bmp
 docx 
 '''
@@ -559,6 +559,78 @@ for mpg_info in headers_list:
 
     # You can further process or save this information as needed
     print('Here is the recovery of the mpg files')
+    print('')       
+
+# Start of the avi recover function 
+def bmp_recov(meta_bmp, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+    head_comp = re.compile(b'%BMP-\\d\.\\d')
+    Footer_compo = re.compile(b'%%EOF')
+
+    header_offsets = [match.start() for match in head_comp.finditer(meta_bmp)]
+    index = 0
+    while index < len(header_offsets):
+        header_offset = header_offsets[index]
+        file_start = header_offset
+        footer_offset = None
+
+        match = Footer_compo.search(meta_bmp[header_offset:])
+        if match:
+            footer_offset = match.start() + header_offset
+
+        if footer_offset is not None:
+            file_end = footer_offset + 20  # Assuming a 20-byte footer length
+        else:
+            # If no footer found for this header, set the end of the file to None.
+            file_end = None
+
+        if file_end is not None:
+            # Carve the PDF file
+            meta_avi = meta_bmp[file_start:file_end]
+
+            # Create a dictionary to store information about the carved PDF file
+            bmp_info = {
+                'header_offset': header_offset,
+                'file_name': f"{output}/recovered{index}.bmp",
+                'file_data': meta_bmp
+            }
+
+            # Append the dictionary to the header_list
+            headers_list.append(bmp_info)
+
+        index += 1
+
+            # Append the dictionary to the header_list
+        headers_list.append(bmp_info)
+
+# Example usage:
+output = "Project 2/Flower_RecoveredFiles"
+
+
+# Replace pdf_data with your actual PDF data in binary format
+meta_bmp = open("Flower.bmp", "rb").read()
+'''footer_data = "This is some footer data"
+footer_list.append(footer_data)
+
+# Add more data to the footer list
+another_footer_data = "Another piece of footer data"
+footer_list.append(another_footer_data)
+
+# The footer_list now contains the added data
+print(footer_list)'''
+# Already have a list that exist already. 
+#header_list = []
+
+gif_recov(meta_bmp, output, headers_list, 'Flower')
+
+
+# Now, header_list contains dictionaries with information about the carved PDF files
+for bmp_info in headers_list:
+    header_offset = bmp_info['header_offset']
+    file_name = bmp_info['file_name']
+    file_data = bmp_info['file_data']
+
+    # You can further process or save this information as needed
+    print('Here is the recovery of the bmp files')
     print('')       
 ''' '''
 '''def find_offsets(binary_data, regex_pattern):
