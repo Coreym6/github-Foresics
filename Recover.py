@@ -125,62 +125,68 @@ png'''
 #def docx_recov
 #def png_recov
 
-def pdf_recov(headers_recov, footers_recov, file_name, file_extension, footer_length, pdf_stream):
+def pdf_recov(meta_pdf, output, headers_list):
+    head_comp = re.compile(b'%PDF-\\d\.\\d')
+    Footer_compo = re.compile(b'%%EOF')
 
-    header_count = len(headers_recov)
-    footer_count = len(footers_recov)
-    
-    """
-    If no headers found, return.
-    """
-    if header_count == 0:
-        return
+    header_offsets = [match.start() for match in head_comp.finditer(meta_pdf)]
+    index = 0
+    while index < len(header_offsets):
+        header_offset = header_offsets[index]
+        file_start = header_offset
+        footer_offset = None
 
-    """
-    Loop through the header locations
-    """
-    for index in range(header_count):
+        match = Footer_compo.search(meta_pdf[header_offset:])
+        if match:
+            footer_offset = match.start() + header_offset
 
-        """
-        The start of the file is always the current header in the sequence
-        """
-        file_start = headers_recov[index]
-
-        """
-        If not the last header, then the footer for this file
-        will be the footer with an offset right after
-        the current header since PDF files have one footer per file
-        """
-        footer_iterator = 0
-        while footer_iterator < footer_count and footers_recov[footer_iterator] < headers_recov[index]:
-            footer_iterator += 1
-        
-        if footer_iterator < footer_count:
-            file_end = footers_recov[footer_iterator] + footer_length
+        if footer_offset is not None:
+            file_end = footer_offset + 20  # Assuming a 20-byte footer length
         else:
-            # If no footer found for this header, set the end of the file to the end of the PDF stream.
-            file_end = len(pdf_stream)
+            # If no footer found for this header, set the end of the file to None.
+            file_end = None
 
-        """
-        Carve bytes out from the PDF stream
-        """
-        output_name = file_name + '_' + str(index) + '.' + file_extension
-        output_data = pdf_stream[file_start:file_end]
+        if file_end is not None:
+            # Carve the PDF file
+            meta_pdf = meta_pdf[file_start:file_end]
 
-        # Write the carved PDF data to a file
-        with open(output_name, 'wb') as output_file:
-            output_file.write(output_data)
+            # Create a dictionary to store information about the carved PDF file
+            pdf_info = {
+                'header_offset': header_offset,
+                'file_name': f"{output}/carved_pdf_{index}.pdf",
+                'file_data': meta_pdf
+            }
 
-        file_element = get_empty_recovered_element()
-        file_element['name'] = output_name
-        file_element['start'] = file_start
-        file_element['end'] = file_end
-        file_element['sha'] = get_sha256(output_name)  # Calculate the SHA-256 hash of the carved file
-        recovered_files.append(file_element)
+            # Append the dictionary to the header_list
+            headers_list.append(pdf_info)
+
+        index += 1
+
+            # Append the dictionary to the header_list
+        headers_list.append(pdf_info)
+
+# Example usage:
+output = "carved_pdfs"
+
+# Replace pdf_data with your actual PDF data in binary format
+meta_pdf = open("sample.pdf", "rb").read()
+
+# Already have a list that exist already. 
+#header_list = []
+
+pdf_recov(meta_pdf, output, headers_list)
+
+# Now, header_list contains dictionaries with information about the carved PDF files
+for pdf_info in headers_list:
+    header_offset = pdf_info['header_offset']
+    file_name = pdf_info['file_name']
+    file_data = pdf_info['file_data']
+
+    # You can further process or save this information as needed
     print('Here is the recovery of the pdf file')
 
 
-import re
+'''import re
 
 def find_offsets(binary_data, regex_pattern):
     offsets = []
@@ -231,12 +237,12 @@ binary_data = b"..."  # Replace with your binary data
 # Initialize a set to keep track of carved headers
 carved_headers = set()
 
-for file_extension, header_pattern in signatures.items():
-    header_offsets = find_offsets(binary_data, header_pattern)
+for file_extension, head_comp in signatures.items():
+    header_offsets = find_offsets(binary_data, head_comp)
 
     for offset in header_offsets:
         carve_file(binary_data, offset, output_directory, file_extension, carved_headers)
-
+'''
 
 
 
