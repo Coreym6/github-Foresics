@@ -259,8 +259,8 @@ print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-jpg_recov(meta_pdf, meta_pdf2, output, headers_list, 'Great')
-jpg_recov(meta_pdf, meta_pdf2, output, headers_list, 'Cities')
+jpg_recov(meta_jpg, meta_pdf2,meta_jpg3,output, headers_list, 'Great')
+jpg_recov(meta_jpg, meta_pdf2,meta_jpg3, output, headers_list, 'Cities')
 
 # Now, header_list contains dictionaries with information about the carved PDF files
 for pdf_info in headers_list:
@@ -269,7 +269,7 @@ for pdf_info in headers_list:
     file_data = pdf_info['file_data']
 
     # You can further process or save this information as needed
-    print('Here is the recovery of the pdf file')
+    print('Here is the recovery of the jpg file')
     print('')
 ''' '''
 '''def find_offsets(binary_data, regex_pattern):
