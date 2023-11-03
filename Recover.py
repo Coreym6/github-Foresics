@@ -270,7 +270,7 @@ for pdf_info in headers_list:
     # You can further process or save this information as needed
     print('Here is the recovery of the jpg file')
     print('')
-
+#start of the png recovery function 
 def png_recov(meta_png, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
     head_comp = re.compile(b'%PNG-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
