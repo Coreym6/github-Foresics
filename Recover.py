@@ -126,8 +126,16 @@ docx
 
 # start of the pdf_recovery 
 def pdf_recov(meta_pdf, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
-    head_comp = re.compile(b'%PDF-\\d\.\\d')# pass in header offset 
+    head_comp = re.compile(b'%PDF-\\d\.\\d')# re.compile, use that to find the pattern and sigs, pass that variable
+    #H = re.compile(header)
+    # read the disk image, then match the patterns 
     #remember to do print function, and put it in the list. 
+    # Basically match H to the disk image
+    # get the offset value
+    #Do the same to the footer 
+    #find the footer too
+    #footer offset 
+    #And then carve the file out 
     Footer_compo = re.compile(b'%%EOF')
 # do same for footer 
 # find footer in disk
