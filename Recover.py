@@ -126,7 +126,7 @@ png'''
 #def png_recov
 
 # start of the pdf_recovery 
-def pdf_recov(meta_pdf, output, headers_list):
+def pdf_recov(meta_pdf, output, headers_list): # wouldn't I still have to account for the footer as well. 
     head_comp = re.compile(b'%PDF-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
 
