@@ -330,7 +330,7 @@ print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-png_recov(meta_png, output, headers_list, 'Great')
+png_recov(meta_png, output, headers_list, 'Dice')
 
 # Now, header_list contains dictionaries with information about the carved PDF files
 for png_info in headers_list:
