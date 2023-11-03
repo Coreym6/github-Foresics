@@ -125,6 +125,7 @@ png'''
 #def docx_recov
 #def png_recov
 
+# start of the pdf_recovery 
 def pdf_recov(meta_pdf, output, headers_list):
     head_comp = re.compile(b'%PDF-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
