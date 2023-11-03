@@ -1,6 +1,6 @@
 import re
 
-pdf_sig = b'\x25\x50\x44\x46'
+pdf_sig = re.compile(b'\x25\x50\x44\x46')
 
 print("hello world")
 def pdf_recov(meta_pdf, output_directory, headers_list, pdf_sig):
