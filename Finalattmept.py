@@ -1,4 +1,5 @@
 import re
+import hashlib# we will need this for the SHA-256 value
 
 pdf_sig = re.compile(b'\x25\x50\x44\x46')
 footer_patterns = [
@@ -37,6 +38,7 @@ matched_footer_offsets =[]
 with open("Project2.dd", "rb") as file:
     disk_image_data = file.read()
 
+
 # Search for header pattern and store matched offsets
 for match in pdf_sig.finditer(disk_image_data):
     offset = match.start()
@@ -57,6 +59,9 @@ for match in pdf_footer_sig.finditer(disk_image_data2):
     print(f"Found footer pattern at offset: {offset}")
 print("List of matched ending offsets:", matched_footer_offsets)
 
+hash_object = hashlib.sha256(disk_image_data, disk_image_data2)
+hash_hex = hash_object.hexdigest() # added this to test out SHA-256 hashlib
+print("SHA-256 Hash of the PDF file:", hash_hex)
 # okay now that we have this information, let's attempt to carve the file.
 
 # Read data between header and footer offsets
@@ -90,7 +95,7 @@ def bmp_recov( bmp_sig, pdf_footer_sig):
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
-matched_footer_offsets =[]
+#matched_footer_offsets =[]
 # Read the disk image file
 with open("Project2.dd", "rb") as file:
     disk_image_data = file.read()
