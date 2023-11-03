@@ -198,19 +198,19 @@ for pdf_info in headers_list:
     print('Here is the recovery of the pdf file')
     print('')    
 
-    # start of the pdf_recovery 
-def pdf_recov(meta_pdf, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+    # start of the jpg_recovery 
+def jpg_recov(meta_jpg, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
     head_comp = re.compile(b'%PDF-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
 
-    header_offsets = [match.start() for match in head_comp.finditer(meta_pdf)]
+    header_offsets = [match.start() for match in head_comp.finditer(meta_jpg)]
     index = 0
     while index < len(header_offsets):
         header_offset = header_offsets[index]
         file_start = header_offset
         footer_offset = None
 
-        match = Footer_compo.search(meta_pdf[header_offset:])
+        match = Footer_compo.search(meta_jpg[header_offset:])
         if match:
             footer_offset = match.start() + header_offset
 
@@ -222,30 +222,31 @@ def pdf_recov(meta_pdf, output, headers_list, footers_list): # wouldn't I still 
 
         if file_end is not None:
             # Carve the PDF file
-            meta_pdf = meta_pdf[file_start:file_end]
+            meta_jpg = meta_jpg[file_start:file_end]
 
             # Create a dictionary to store information about the carved PDF file
-            pdf_info = {
+            jpg_info = {
                 'header_offset': header_offset,
-                'file_name': f"{output}/recovered{index}.pdf",
-                'file_data': meta_pdf
+                'file_name': f"{output}/recovered{index}.jpg",
+                'file_data': meta_jpg
             }
 
             # Append the dictionary to the header_list
-            headers_list.append(pdf_info)
+            headers_list.append(jpg_info)
 
         index += 1
 
             # Append the dictionary to the header_list
-        headers_list.append(pdf_info)
+        headers_list.append(jpg_info)
 
 # Example usage:
 output = "Project 2/Great_RecoveredFiles"
 output2 = "Project 2/Cities_RecoveredFiles"
 
 # Replace pdf_data with your actual PDF data in binary format
-meta_pdf = open("Great.pdf", "rb").read()
-meta_pdf2 = open("Cities.pdf", "rb").read()
+meta_jpg = open("Flags.jpg", "rb").read()
+meta_jpg2 = open("Iron.jpg", "rb").read()
+meta_jpg3 = open("Auburn.jpg", "rb").read()
 '''footer_data = "This is some footer data"
 footer_list.append(footer_data)
 
@@ -258,8 +259,8 @@ print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-pdf_recov(meta_pdf, meta_pdf2, output, headers_list, 'Great')
-pdf_recov(meta_pdf, meta_pdf2, output, headers_list, 'Cities')
+jpg_recov(meta_pdf, meta_pdf2, output, headers_list, 'Great')
+jpg_recov(meta_pdf, meta_pdf2, output, headers_list, 'Cities')
 
 # Now, header_list contains dictionaries with information about the carved PDF files
 for pdf_info in headers_list:
