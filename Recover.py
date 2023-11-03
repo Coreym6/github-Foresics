@@ -167,15 +167,18 @@ def pdf_recov(meta_pdf, output, headers_list):
         headers_list.append(pdf_info)
 
 # Example usage:
-output = "carved_pdfs"
+output = "Project 2/PDF1_CarvedFiles"
+output2 = "Project 2/PDF2_CarvedFiles"
 
 # Replace pdf_data with your actual PDF data in binary format
-meta_pdf = open("sample.pdf", "rb").read()
+meta_pdf = open("Great.pdf", "rb").read()
+meta_pdf2 = open("Cities.pdf", "rb").read()
 
 # Already have a list that exist already. 
 #header_list = []
 
-pdf_recov(meta_pdf, output, headers_list)
+pdf_recov(meta_pdf, meta_pdf2, output, headers_list, 'Great')
+pdf_recov(meta_pdf, meta_pdf2, output, headers_list, 'Cities')
 
 # Now, header_list contains dictionaries with information about the carved PDF files
 for pdf_info in headers_list:
