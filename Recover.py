@@ -344,18 +344,18 @@ for png_info in headers_list:
     print('Here is the recovery of the png file')
     print('')  
 
-def png_recov(meta_png, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
-    head_comp = re.compile(b'%PNG-\\d\.\\d')
+def gif_recov(meta_gif, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+    head_comp = re.compile(b'%GIF-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
 
-    header_offsets = [match.start() for match in head_comp.finditer(meta_png)]
+    header_offsets = [match.start() for match in head_comp.finditer(meta_gif)]
     index = 0
     while index < len(header_offsets):
         header_offset = header_offsets[index]
         file_start = header_offset
         footer_offset = None
 
-        match = Footer_compo.search(meta_png[header_offset:])
+        match = Footer_compo.search(meta_gif[header_offset:])
         if match:
             footer_offset = match.start() + header_offset
 
@@ -367,28 +367,30 @@ def png_recov(meta_png, output, headers_list, footers_list): # wouldn't I still 
 
         if file_end is not None:
             # Carve the PDF file
-            meta_png = meta_png[file_start:file_end]
+            meta_gif = meta_gif[file_start:file_end]
 
             # Create a dictionary to store information about the carved PDF file
-            png_info = {
+            gif_info = {
                 'header_offset': header_offset,
-                'file_name': f"{output}/recovered{index}.png",
-                'file_data': meta_png
+                'file_name': f"{output}/recovered{index}.gif",
+                'file_data': meta_gif
             }
 
             # Append the dictionary to the header_list
-            headers_list.append(png_info)
+            headers_list.append(gif_info)
 
         index += 1
 
             # Append the dictionary to the header_list
-        headers_list.append(png_info)
+        headers_list.append(gif_info)
 
 # Example usage:
-output = "Project 2/Dice_RecoveredFiles"
+output = "Project 2/Minion_RecoveredFiles"
+output2 = "Project 2/MandelBrot_RecoveredFiles"
 
 # Replace pdf_data with your actual PDF data in binary format
-meta_png = open("Dice.png", "rb").read()
+meta_gif = open("Minion.gif", "rb").read()
+meta_gif2 = open("MandelBrot", "rb").read()
 '''footer_data = "This is some footer data"
 footer_list.append(footer_data)
 
@@ -401,16 +403,16 @@ print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-png_recov(meta_png, output, headers_list, 'Dice')
+gif_recov(meta_gif,meta_gif2, output, headers_list, 'Minion')
 
 # Now, header_list contains dictionaries with information about the carved PDF files
-for png_info in headers_list:
-    header_offset = png_info['header_offset']
-    file_name = png_info['file_name']
-    file_data = png_info['file_data']
+for gif_info in headers_list:
+    header_offset = gif_info['header_offset']
+    file_name = gif_info['file_name']
+    file_data = gif_info['file_data']
 
     # You can further process or save this information as needed
-    print('Here is the recovery of the png file')
+    print('Here is the recovery of the gif file')
     print('')    
     
 ''' '''
