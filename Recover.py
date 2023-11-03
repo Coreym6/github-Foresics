@@ -185,8 +185,69 @@ for pdf_info in headers_list:
 
     # You can further process or save this information as needed
     print('Here is the recovery of the pdf file')
+    print('')
+    
+# here is the start of the jpg recovery function 
+def jpg_recov(meta_jpg, output, headers_list):
+    head_comp = re.compile(b'%JPG-\\d\.\\d')
+    Footer_compo = re.compile(b'%%EOF')
 
+    header_offsets = [match.start() for match in head_comp.finditer(meta_jpg)]
+    index = 0
+    while index < len(header_offsets):
+        header_offset = header_offsets[index]
+        file_start = header_offset
+        footer_offset = None
 
+        match = Footer_compo.search(meta_jpg[header_offset:])
+        if match:
+            footer_offset = match.start() + header_offset
+
+        if footer_offset is not None:
+            file_end = footer_offset + 20  # Assuming a 20-byte footer length
+        else:
+            # If no footer found for this header, set the end of the file to None.
+            file_end = None
+
+        if file_end is not None:
+            # Carve the PDF file
+            meta_jpg = meta_jpg[file_start:file_end]
+
+            # Create a dictionary to store information about the carved PDF file
+            jpg_info = {
+                'header_offset': header_offset,
+                'file_name': f"{output}/carved_jpg_{index}.jpg",
+                'file_data': meta_jpg
+            }
+
+            # Append the dictionary to the header_list
+            headers_list.append(jpg_info)
+
+        index += 1
+
+            # Append the dictionary to the header_list
+        headers_list.append(jpg_info)
+
+# Example usage:
+output = "carved_pdfs"
+
+# Replace pdf_data with your actual PDF data in binary format
+meta_jpg = open("sample.pdf", "rb").read()
+
+# Already have a list that exist already. 
+#header_list = []
+
+jpg_recov(meta_jpg, output, headers_list)
+
+# Now, header_list contains dictionaries with information about the carved PDF files
+for jpg_info in headers_list:
+    header_offset = jpg_info['header_offset']
+    file_name = jpg_info['file_name']
+    file_data = jpg_info['file_data']
+# is there any way to shorten this ????
+    # You can further process or save this information as needed
+    print('Here is the recovery of the jpg file')
+    print (' Here is the jpg list+ headers_list')
 '''import re
 
 def find_offsets(binary_data, regex_pattern):
