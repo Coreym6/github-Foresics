@@ -21,7 +21,7 @@ def pdf_recov(meta_pdf, output_directory, headers_list, pdf_sig, pdf_footer):
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
     header_to_bytes = pdf_sig.encode('utf-8') 
-    footer_to_bytes = pdf_footer_sig # might have to add an encoding if that doesn't work
+    footer_to_bytes = pdf_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
     #footer_to_bytes = pdf_footer.encode('utf-8')
     #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
