@@ -60,11 +60,11 @@ print("List of matched ending offsets:", matched_footer_offsets)
 # okay now that we have this information, let's attempt to carve the file.
 
 # Read data between header and footer offsets
-'''carved_data = file.read(matched_footer_offset - header_offset + len(pdf_footer_sig.pattern))
+carved_data = file.read(matched_footer_offsets - matched_offsets + len(pdf_footer_sig.pattern))
 
         # Create a new file to save the carved data
 with open(f"carved_file_{i}.pdf", "wb") as carved_file:
-            carved_file.write(carved_data)'''
+            carved_file.write(carved_data)
 
 
 
