@@ -99,8 +99,7 @@ file_sigs = { # also recovered 10 out of the 13 files through binwalk commands
     ] # no need to worry about the zip file anymore 
 }
 
-headers_list =[]
-footers_list =[]
+
 # included both for the sake of organization overall 
 
 #def init_
