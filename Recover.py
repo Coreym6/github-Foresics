@@ -490,18 +490,18 @@ for avi_info in headers_list:
     print('')       
 
 # Start of the bmp recover function 
-def avi_recov(meta_avi, meta_avi2, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
-    head_comp = re.compile(b'%AVI-\\d\.\\d')
+def mpg_recov(meta_mpg, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
+    head_comp = re.compile(b'%BMP-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
 
-    header_offsets = [match.start() for match in head_comp.finditer(meta_avi)]
+    header_offsets = [match.start() for match in head_comp.finditer(meta_mpg)]
     index = 0
     while index < len(header_offsets):
         header_offset = header_offsets[index]
         file_start = header_offset
         footer_offset = None
 
-        match = Footer_compo.search(meta_avi[header_offset:])
+        match = Footer_compo.search(meta_mpg[header_offset:])
         if match:
             footer_offset = match.start() + header_offset
 
@@ -513,30 +513,29 @@ def avi_recov(meta_avi, meta_avi2, output, headers_list, footers_list): # wouldn
 
         if file_end is not None:
             # Carve the PDF file
-            meta_avi = meta_avi[file_start:file_end]
+            meta_mpg = meta_mpg[file_start:file_end]
 
             # Create a dictionary to store information about the carved PDF file
-            gif_info = {
+            mpg_info = {
                 'header_offset': header_offset,
-                'file_name': f"{output}/recovered{index}.avi",
-                'file_data': meta_avi
+                'file_name': f"{output}/recovered{index}.mpg",
+                'file_data': meta_mpg
             }
 
             # Append the dictionary to the header_list
-            headers_list.append(gif_info)
+            headers_list.append(mpg_info)
 
         index += 1
 
             # Append the dictionary to the header_list
-        headers_list.append(gif_info)
+        headers_list.append(mpg_info)
 
 # Example usage:
-output = "Project 2/Bear_RecoveredFiles"
-output2 = "Project 2/Ocean_RecoveredFiles"
+output = "Project 2/Universe_RecoveredFiles"
+
 
 # Replace pdf_data with your actual PDF data in binary format
-meta_avi = open("Bear.avi", "rb").read()
-meta_avi2 = open("Ocean.avi", "rb").read()
+meta_mpg = open("Universe.mpg", "rb").read()
 '''footer_data = "This is some footer data"
 footer_list.append(footer_data)
 
@@ -549,17 +548,17 @@ print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
-gif_recov(meta_avi,meta_avi2, output, headers_list, 'Bear')
-gif_recov(meta_avi,meta_avi2, output, headers_list, 'Ocean')
+mpg_recov(meta_mpg, output, headers_list, 'Universe')
+
 
 # Now, header_list contains dictionaries with information about the carved PDF files
-for avi_info in headers_list:
-    header_offset = avi_info['header_offset']
-    file_name = avi_info['file_name']
-    file_data = avi_info['file_data']
+for mpg_info in headers_list:
+    header_offset = mpg_info['header_offset']
+    file_name = mpg_info['file_name']
+    file_data = mpg_info['file_data']
 
     # You can further process or save this information as needed
-    print('Here is the recovery of the avi files')
+    print('Here is the recovery of the mpg files')
     print('')       
 ''' '''
 '''def find_offsets(binary_data, regex_pattern):
