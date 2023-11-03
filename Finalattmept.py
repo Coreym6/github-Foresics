@@ -15,7 +15,7 @@ pdf_footer_sig = re.compile(b'|'.join(footer_patterns))
 #b'\x0A\x25\x25\x45\x4F\x46') '''
 
 print("hello world")
-def pdf_recov(meta_pdf, output_directory, headers_list, pdf_sig, pdf_footer):
+def pdf_recov( pdf_sig, pdf_footer_sig):
     # Compile the regex pattern using the header signature
 
     #changed the pattern to the header of an pdf
@@ -60,11 +60,13 @@ print("List of matched ending offsets:", matched_footer_offsets)
 # okay now that we have this information, let's attempt to carve the file.
 
 # Read data between header and footer offsets
-carved_data = file.read(matched_footer_offsets - matched_offsets + len(pdf_footer_sig.pattern))
+'''carved_data = file.read(matched_footer_offsets - matched_offsets + len(pdf_footer_sig.pattern))
 #i=1
         # Create a new file to save the carved data
 with open(f"recovered_file_{carved_data[:20]}.pdf", "wb") as carved_file:
-            carved_file.write(carved_data)
+            carved_file.write(carved_data)'''
+#will fix later to the files, we at least got the offsets
+# also I need to add SHA-256 Function 
 
 
 
