@@ -126,7 +126,7 @@ png'''
 #def png_recov
 
 # start of the pdf_recovery 
-def pdf_recov(meta_pdf, output, headers_list): # wouldn't I still have to account for the footer as well. 
+def pdf_recov(meta_pdf, output, headers_list, footers_list): # wouldn't I still have to account for the footer as well. 
     head_comp = re.compile(b'%PDF-\\d\.\\d')
     Footer_compo = re.compile(b'%%EOF')
 
@@ -173,7 +173,15 @@ output2 = "Project 2/Cities_RecoveredFiles"
 # Replace pdf_data with your actual PDF data in binary format
 meta_pdf = open("Great.pdf", "rb").read()
 meta_pdf2 = open("Cities.pdf", "rb").read()
+'''footer_data = "This is some footer data"
+footer_list.append(footer_data)
 
+# Add more data to the footer list
+another_footer_data = "Another piece of footer data"
+footer_list.append(another_footer_data)
+
+# The footer_list now contains the added data
+print(footer_list)'''
 # Already have a list that exist already. 
 #header_list = []
 
