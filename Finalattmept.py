@@ -138,19 +138,19 @@ jpg_header_patterns = [
     b'\xFF\xD8\xFF\xE2',
     b'\xFF\xD8\xFF\xE8',
     b'\xFF\xD8\xFF\xDB'
-]
+] # more of the opposite of pdf with multiple footer sigs 
 jpg_footer_sig = re.compile(b'\xFF\xD9')
 
 # add in temp_filename variables
-pdf_footer_sig = re.compile(b'|'.join(footer_patterns))
+jpg_header_sig = re.compile(b'|'.join(jpg_header_patterns))
 
-def jpg_recov( pdf_sig, pdf_footer_sig):
+def jpg_recov( jpg_footer_sig, jpg_header_sig):
     # Compile the regex pattern using the header signature
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
-    header_to_bytes = pdf_sig.encode('utf-8') 
-    footer_to_bytes = pdf_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
+    header_to_bytes = jpg_header_sig.encode('utf-8') 
+    footer_to_bytes = jpg_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
     #footer_to_bytes = pdf_footer.encode('utf-8')
     #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
@@ -164,11 +164,11 @@ matched_offsets = []
 matched_footer_offsets =[]
 # Read the disk image file
 with open("Project2.dd", "rb") as file:
-    disk_image_data = file.read()
+    jpg_image_data = file.read()
 
 
 # Search for header pattern and store matched offsets
-for match in pdf_sig.finditer(disk_image_data):
+for match in jpg_header_sig.finditer(jpg_image_data):
     offset = match.start()
     matched_offsets.append(offset)
     print(f"Found header pattern at offset: {offset}")
@@ -179,16 +179,16 @@ print("List of matched offsets:", matched_offsets)
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
-    disk_image_data2 = file.read()
+    jpg_image_data2 = file.read()
 
-for match in pdf_footer_sig.finditer(disk_image_data2): 
-    pdf_f_offset = match.start()
-    matched_footer_offsets.append(pdf_f_offset) # and possibly this to another list
-    print(f"Found footer pattern at offset: {pdf_f_offset}")
+for match in jpg_footer_sig.finditer(jpg_image_data2): 
+    jpg_f_offset = match.start()
+    matched_footer_offsets.append(jpg_f_offset) # and possibly this to another list
+    print(f"Found footer pattern at offset: {jpg_f_offset}")
 print("List of matched ending offsets:", matched_footer_offsets)
 
-hash_object = hashlib.sha256(disk_image_data)
-hash_object2 = hashlib.sha256(disk_image_data2)
+hash_object = hashlib.sha256(jpg_image_data)
+hash_object2 = hashlib.sha256(jpg_image_data2)
 hash_hex = hash_object.hexdigest()
 hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
 print("SHA-256 Hash of the PDF file:", hash_hex, hash_hexf)
