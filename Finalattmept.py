@@ -38,7 +38,6 @@ for match in pdf_sig.finditer(disk_image_data):
 
 # Print the list of matched offsets
 print("List of matched pdf offsets:", matched_offsets)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
@@ -83,13 +82,9 @@ def bmp_recov( bmp_sig):#start of bmp function, will likely have to use file siz
     #H = re.compile(header_sig)
     header_to_bytes = bmp_sig.encode('utf-8') 
     size_to_bytes = bmp_size.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+     # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
+   Here is the source of which we took the file sigs from: https://www.garykessler.net/library/file_sigs.html
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
@@ -120,7 +115,6 @@ hash_object = hashlib.sha256(bmp_image_data)
 bmp_hex = hash_object.hexdigest()
  # added this to test out SHA-256 hashlib
 print("SHA-256 Hash of the BMP file:", bmp_hex)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 '''matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
@@ -141,7 +135,6 @@ jpg_header_patterns = [
 ] # more of the opposite of pdf with multiple footer sigs 
 jpg_footer_sig = re.compile(b'\xFF\xD9')
 
-# add in temp_filename variables
 jpg_header_sig = re.compile(b'|'.join(jpg_header_patterns))
 
 def jpg_recov( jpg_footer_sig, jpg_header_sig):
@@ -151,13 +144,9 @@ def jpg_recov( jpg_footer_sig, jpg_header_sig):
     #H = re.compile(header_sig)
     header_to_bytes = jpg_header_sig.encode('utf-8') 
     footer_to_bytes = jpg_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+     # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
+   Here is the source of which we took the file sigs from: https://www.garykessler.net/library/file_sigs.html
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
@@ -175,7 +164,6 @@ for match in jpg_header_sig.finditer(jpg_image_data):
 
 # Print the list of matched offsets
 print("List of matched jpg header offsets:", matched_offsets)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
@@ -207,13 +195,9 @@ def png_recov( png_footer_sig, png_header_sig):
     #H = re.compile(header_sig)
     header_to_bytes = png_header_sig.encode('utf-8') 
     footer_to_bytes = png_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+     # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
+   Here is the source of which we took the file sigs from: https://www.garykessler.net/library/file_sigs.html
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
@@ -231,7 +215,6 @@ for match in png_header_sig.finditer(png_image_data):
 
 # Print the list of matched offsets
 print("List of png header matched offsets:", matched_offsets)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
@@ -258,7 +241,6 @@ gif_header_patterns = [
     b'\x47\x49\x46\x38\x39\x61',
 ] # more of the opposite of pdf with multiple footer sigs 
 
-# add in temp_filename variables
 gif_header_sig = re.compile(b'|'.join(gif_header_patterns))
 
 # START OF GIF RECOVERY FUNCTION
@@ -272,13 +254,9 @@ def gif_recov( gif_footer_sig, gif_header_sig):
     #H = re.compile(header_sig)
     header_to_bytes = gif_header_sig.encode('utf-8') 
     footer_to_bytes = gif_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+     # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
+   Here is the source of which we took the file sigs from: https://www.garykessler.net/library/file_sigs.html
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
@@ -296,7 +274,6 @@ for match in gif_header_sig.finditer(gif_image_data):
 
 # Print the list of matched offsets
 print("List of gif header matched offsets:", matched_offsets)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
@@ -323,7 +300,6 @@ mpg_header_sig = re.compile(b'\x00\x00\x01\xB3.\x00')
 
    # more of the opposite of pdf with multiple footer sigs 
 
-# add in temp_filename variables
 
 # START OF GIF RECOVERY FUNCTION
 
@@ -336,13 +312,9 @@ def mpg_recov( mpg_footer_sig, mpg_header_sig):
     #H = re.compile(header_sig)
     header_to_bytes = mpg_header_sig.encode('utf-8') 
     footer_to_bytes = mpg_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+     # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
+   Here is the source of which we took the file sigs from: https://www.garykessler.net/library/file_sigs.html
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
@@ -360,7 +332,6 @@ for match in mpg_header_sig.finditer(mpg_image_data):
 
 # Print the list of matched offsets
 print("List of mpg header matched offsets:", matched_offsets)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
@@ -390,7 +361,6 @@ docx_header_sig = re.compile(b'\x50\x4B\x03\x04\x14\x00\x06\x00')
 
    # more of the opposite of pdf with multiple footer sigs 
 
-# add in temp_filename variables
 
 docx_footer_sig = re.compile(b'\x50\x4B\x05\x06')
 
@@ -401,13 +371,9 @@ def docx_recov( docx_footer_sig, docx_header_sig):
     #H = re.compile(header_sig)
     header_to_bytes = docx_header_sig.encode('utf-8') 
     footer_to_bytes = docx_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+     # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
+   Here is the source of which we took the file sigs from: https://www.garykessler.net/library/file_sigs.html
         I will likely have to approach it in a similar manner'''
     # Create an empty list to store matched offsets
 matched_offsets = []
@@ -425,7 +391,6 @@ for match in docx_header_sig.finditer(docx_image_data):
 
 # Print the list of matched offsets
 print("List of docx header matched offsets:", matched_offsets)
-#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
