@@ -76,7 +76,8 @@ with open(f"recovered_file_{carved_data[:20]}.pdf", "wb") as carved_file:
 # also I need to add SHA-256 Function 
 
 bmp_sig = re.compile(b'\x42\x4D....\x00\x00\x00\x00')# might have to edit this
-bmp_footer_sig = re.compile(b'None') # I'll either have to feed that in or possible the file size
+bmp_footer_sig = re.compile(b'None')
+bmp_size = 77,942 # I'll either have to feed that in or possible the file size
 # the file size for the bmp according to the disk editor is 77,942
 # start of the bmp file recover
 def bmp_recov( bmp_sig, pdf_footer_sig):
@@ -86,7 +87,7 @@ def bmp_recov( bmp_sig, pdf_footer_sig):
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
     header_to_bytes = bmp_sig.encode('utf-8') 
-    footer_to_bytes = pdf_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
+    size_to_bytes = bmp_size.encode('utf-8') # might have to add an encoding if that doesn't work
     #footer_to_bytes = pdf_footer.encode('utf-8')
     #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
     ''' There is multiple footers, here is the file sigs for this ones,
@@ -100,10 +101,10 @@ matched_offsets = []
 #matched_footer_offsets =[]
 # Read the disk image file
 with open("Project2.dd", "rb") as file:
-    disk_image_data = file.read()
+    bmp_image_data = file.read()
 
 # Search for header pattern and store matched offsets
-for match in bmp_sig.finditer(disk_image_data):
+for match in bmp_sig.finditer(bmp_image_data):
     offset = match.start()
     matched_offsets.append(offset)
     print(f"Found header pattern at offset: {offset}")
@@ -116,7 +117,7 @@ matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
     disk_image_data2 = file.read()
 
-for match in pdf_footer_sig.finditer(disk_image_data2): 
+for match in bmp_footer_sig.finditer(disk_image_data2): 
     offset = match.start()
     matched_footer_offsets.append(offset) # and possibly this to another list
     print(f"Found footer pattern at offset: {offset}")
