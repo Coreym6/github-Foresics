@@ -451,3 +451,63 @@ hash_object2 = hashlib.sha256(docx_image_data2)
 hash_hex = hash_object.hexdigest()
 hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
 print("SHA-256 Hash of the docx file:", hash_hex, hash_hexf)
+
+
+# start of avi function, similar functionality to BMP function
+
+avi_sig = re.compile(b'\x52\x49\x46\x46....\x41\x56\x49\x20\x4C\x49\x53\x54')# might have to edit this
+avi_footer_sig = re.compile(b'None')
+avi_size_1 = re.compile(b'9,909,100')
+avi_size_2 = re.compile(b'88 4A BA 01')# maybe this would work 
+ # I'll either have to feed that in or possible the file size
+# the file size for the bmp according to the disk editor is 77,942
+
+
+
+
+# start of the bmp file recover
+def avi_recov( avi_sig, avi_size_1, avi_size_2):#start of bmp function, will likely have to use file size
+
+    # Compile the regex pattern using the header signature
+
+    #changed the pattern to the header of an pdf
+    #H = re.compile(header_sig)
+    header_to_bytes = avi_sig.encode('utf-8') 
+    size_to_bytes = avi_size_1.encode('utf-8') # might have to add an encoding if that doesn't work
+    #footer_to_bytes = pdf_footer.encode('utf-8')
+    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+    ''' There is multiple footers, here is the file sigs for this ones,
+    b'\x0A\x25\x25\x45\x4F\x46\x0A',
+        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
+        b'\x0A\x25\x25\x45\x4F\x46\x0A',
+        b'\x0A\x25\x25\x45\x4F\x46
+        I will likely have to approach it in a similar manner'''
+    # Create an empty list to store matched offsets
+matched_offsets = []
+#matched_footer_offsets =[]
+# Read the disk image file
+with open("Project2.dd", "rb") as file:
+    avi_image_data = file.read()
+
+# Search for header pattern and store matched offsets
+for match in avi_sig.finditer(avi_image_data):
+    offset = match.start()
+    matched_offsets.append(offset)
+    print(f"Found avi header pattern at offset: {offset}")
+
+'''for offset in matched_offsets:
+        header_data = bmp_image_data[offset:offset + 10]
+# Check if the header starts with "BM" (42 4D in hexadecimal)
+        if header_data[:2] == b'BM':
+            # Extract the 4-byte file size (little-endian)
+            file_size = int.from_bytes(bmp_image_data[2:6], byteorder='little')
+            print(f"BMP File Size at offset {offset}: {file_size} bytes")
+        else:
+            print(f"No valid BMP header at offset {offset}")
+# Print the list of matched offsets
+#print("List of matched offsets:", matched_offsets)'''
+
+hash_object = hashlib.sha256(avi_image_data)
+avi_hex = hash_object.hexdigest()
+ # added this to test out SHA-256 hashlib
+print("SHA-256 Hash of the BMP file:", avi_hex)
