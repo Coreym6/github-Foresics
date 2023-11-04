@@ -8,7 +8,7 @@ footer_patterns = [
     b'\x0A\x25\x25\x45\x4F\x46\x0A',
     b'\x0A\x25\x25\x45\x4F\x46'
 ]
-# add in temp_filename variables
+
 pdf_footer_sig = re.compile(b'|'.join(footer_patterns))
 #pdf_footer = re.compile(b'\x0A\x25\x25\x45\x4F\x46\x0A')
 #b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
@@ -17,21 +17,12 @@ pdf_footer_sig = re.compile(b'|'.join(footer_patterns))
 
 print("hello world") # test statment 
 def pdf_recov( pdf_sig, pdf_footer_sig):
-    # Compile the regex pattern using the header signature
+    
 
-    #changed the pattern to the header of an pdf
-    #H = re.compile(header_sig)
+    
     header_to_bytes = pdf_sig.encode('utf-8') 
     footer_to_bytes = pdf_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
-    ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
-        I will likely have to approach it in a similar manner'''
-    # Create an empty list to store matched offsets
+
 matched_offsets = []
 matched_footer_offsets =[]
 # Read the disk image file
@@ -39,7 +30,7 @@ with open("Project2.dd", "rb") as file:
     disk_image_data = file.read()
 
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in pdf_sig.finditer(disk_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -86,7 +77,7 @@ bmp_size = re.compile(b'77,942') # I'll either have to feed that in or possible 
 # start of the bmp file recover
 def bmp_recov( bmp_sig):#start of bmp function, will likely have to use file size
 
-    # Compile the regex pattern using the header signature
+   
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
@@ -107,7 +98,7 @@ matched_offsets = []
 with open("Project2.dd", "rb") as file:
     bmp_image_data = file.read()
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in bmp_sig.finditer(bmp_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -154,7 +145,7 @@ jpg_footer_sig = re.compile(b'\xFF\xD9')
 jpg_header_sig = re.compile(b'|'.join(jpg_header_patterns))
 
 def jpg_recov( jpg_footer_sig, jpg_header_sig):
-    # Compile the regex pattern using the header signature
+   
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
@@ -176,7 +167,7 @@ with open("Project2.dd", "rb") as file:
     jpg_image_data = file.read()
 
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in jpg_header_sig.finditer(jpg_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -210,7 +201,7 @@ png_header_sig = re.compile(b'\x89\x50\x4E\x47\x0D\x0A\x1A\x0A')
 png_footer_sig = re.compile(b'\x49\x45\x4E\x44\xAE\x42\x60\x82')
 
 def png_recov( png_footer_sig, png_header_sig):
-    # Compile the regex pattern using the header signature
+   
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
@@ -232,7 +223,7 @@ with open("Project2.dd", "rb") as file:
     png_image_data = file.read()
 
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in png_header_sig.finditer(png_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -275,7 +266,7 @@ gif_header_sig = re.compile(b'|'.join(gif_header_patterns))
 gif_footer_sig = re.compile(b'\x00\x00\x3B')
 
 def gif_recov( gif_footer_sig, gif_header_sig):
-    # Compile the regex pattern using the header signature
+   
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
@@ -297,7 +288,7 @@ with open("Project2.dd", "rb") as file:
     gif_image_data = file.read()
 
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in gif_header_sig.finditer(gif_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -339,7 +330,7 @@ mpg_header_sig = re.compile(b'\x00\x00\x01\xB3.\x00')
 mpg_footer_sig = re.compile(b'\x00\x00\x00\x01\xB7')
 
 def mpg_recov( mpg_footer_sig, mpg_header_sig):
-    # Compile the regex pattern using the header signature
+   
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
@@ -361,7 +352,7 @@ with open("Project2.dd", "rb") as file:
     mpg_image_data = file.read()
 
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in mpg_header_sig.finditer(mpg_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -404,7 +395,7 @@ docx_header_sig = re.compile(b'\x50\x4B\x03\x04\x14\x00\x06\x00')
 docx_footer_sig = re.compile(b'\x50\x4B\x05\x06')
 
 def docx_recov( docx_footer_sig, docx_header_sig):
-    # Compile the regex pattern using the header signature
+   
 
     #changed the pattern to the header of an pdf
     #H = re.compile(header_sig)
@@ -426,7 +417,7 @@ with open("Project2.dd", "rb") as file:
     docx_image_data = file.read()
 
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in docx_header_sig.finditer(docx_image_data):
     offset = match.start()
     matched_offsets.append(offset)
@@ -461,6 +452,7 @@ avi_size_1 = re.compile(b'9,909,100')
 avi_size_2 = re.compile(b'88 4A BA 01')# maybe this would work 
  # I'll either have to feed that in or possible the file size
 # the file size for the bmp according to the disk editor is 77,942
+# this comment above was for the bmp function instead
 
 
 
@@ -468,20 +460,9 @@ avi_size_2 = re.compile(b'88 4A BA 01')# maybe this would work
 # start of the bmp file recover
 def avi_recov( avi_sig, avi_size_1, avi_size_2):#start of bmp function, will likely have to use file size
 
-    # Compile the regex pattern using the header signature
-
-    #changed the pattern to the header of an pdf
-    #H = re.compile(header_sig)
     header_to_bytes = avi_sig.encode('utf-8') 
-    size_to_bytes = avi_size_1.encode('utf-8') # might have to add an encoding if that doesn't work
-    #footer_to_bytes = pdf_footer.encode('utf-8')
-    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
-    ''' There is multiple footers, here is the file sigs for this ones,
-    b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46\x0A',
-        b'\x0A\x25\x25\x45\x4F\x46
-        I will likely have to approach it in a similar manner'''
+    size_to_bytes = avi_size_1.encode('utf-8') 
+    # approach this similar to the bmp file recovery method
     # Create an empty list to store matched offsets
 matched_offsets = []
 #matched_footer_offsets =[]
@@ -489,7 +470,7 @@ matched_offsets = []
 with open("Project2.dd", "rb") as file:
     avi_image_data = file.read()
 
-# Search for header pattern and store matched offsets
+# header find and store
 for match in avi_sig.finditer(avi_image_data):
     offset = match.start()
     matched_offsets.append(offset)
