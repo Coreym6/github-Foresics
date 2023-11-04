@@ -113,9 +113,9 @@ for match in bmp_sig.finditer(bmp_image_data):
 print("List of matched offsets:", matched_offsets)
 
 hash_object = hashlib.sha256(bmp_image_data)
-hash_hex = hash_object.hexdigest()
+bmp_hex = hash_object.hexdigest()
  # added this to test out SHA-256 hashlib
-print("SHA-256 Hash of the BMP file:", hash_hex)
+print("SHA-256 Hash of the BMP file:", bmp_hex)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 '''matched_footer_offsets =[] # I might have to change this
