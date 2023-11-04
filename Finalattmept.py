@@ -54,9 +54,9 @@ with open("Project2.dd", "rb") as file:
     disk_image_data2 = file.read()
 
 for match in pdf_footer_sig.finditer(disk_image_data2): 
-    offset = match.start()
-    matched_footer_offsets.append(offset) # and possibly this to another list
-    print(f"Found footer pattern at offset: {offset}")
+    pdf_f_offset = match.start()
+    matched_footer_offsets.append(pdf_f_offset) # and possibly this to another list
+    print(f"Found footer pattern at offset: {pdf_f_offset}")
 print("List of matched ending offsets:", matched_footer_offsets)
 
 hash_object = hashlib.sha256(disk_image_data)
@@ -80,7 +80,7 @@ bmp_footer_sig = re.compile(b'None')
 bmp_size = 77,942 # I'll either have to feed that in or possible the file size
 # the file size for the bmp according to the disk editor is 77,942
 # start of the bmp file recover
-def bmp_recov( bmp_sig, pdf_footer_sig):
+def bmp_recov( bmp_sig, bmp_footer_sig):
 
     # Compile the regex pattern using the header signature
 
@@ -113,7 +113,7 @@ for match in bmp_sig.finditer(bmp_image_data):
 print("List of matched offsets:", matched_offsets)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
-matched_footer_offsets =[bmp_footer_sig] # I might have to change this
+matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
     disk_image_data2 = file.read()
 
