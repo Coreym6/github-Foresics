@@ -77,7 +77,7 @@ with open(f"recovered_file_{carved_data[:20]}.pdf", "wb") as carved_file:
 
 bmp_sig = re.compile(b'\x42\x4D....\x00\x00\x00\x00')# might have to edit this
 bmp_footer_sig = re.compile(b'None')
-bmp_size = re.compile(77,942) # I'll either have to feed that in or possible the file size
+bmp_size = re.compile(b'77,942') # I'll either have to feed that in or possible the file size
 # the file size for the bmp according to the disk editor is 77,942
 
 
