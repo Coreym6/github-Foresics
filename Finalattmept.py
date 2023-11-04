@@ -77,10 +77,14 @@ with open(f"recovered_file_{carved_data[:20]}.pdf", "wb") as carved_file:
 
 bmp_sig = re.compile(b'\x42\x4D....\x00\x00\x00\x00')# might have to edit this
 bmp_footer_sig = re.compile(b'None')
-bmp_size = 77,942 # I'll either have to feed that in or possible the file size
+bmp_size = re.compile(77,942) # I'll either have to feed that in or possible the file size
 # the file size for the bmp according to the disk editor is 77,942
+
+
+
+
 # start of the bmp file recover
-def bmp_recov( bmp_sig, bmp_footer_sig):
+def bmp_recov( bmp_sig):#start of bmp function, will likely have to use file size
 
     # Compile the regex pattern using the header signature
 
