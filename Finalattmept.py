@@ -43,10 +43,10 @@ with open("Project2.dd", "rb") as file:
 for match in pdf_sig.finditer(disk_image_data):
     offset = match.start()
     matched_offsets.append(offset)
-    print(f"Found header pattern at offset: {offset}")
+    print(f"Found pdf header pattern at offset: {offset}")
 
 # Print the list of matched offsets
-print("List of matched offsets:", matched_offsets)
+print("List of matched pdf offsets:", matched_offsets)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
@@ -56,8 +56,8 @@ with open("Project2.dd", "rb") as file:
 for match in pdf_footer_sig.finditer(disk_image_data2): 
     pdf_f_offset = match.start()
     matched_footer_offsets.append(pdf_f_offset) # and possibly this to another list
-    print(f"Found footer pattern at offset: {pdf_f_offset}")
-print("List of matched ending offsets:", matched_footer_offsets)
+    print(f"Found pdf footer pattern at offset: {pdf_f_offset}")
+print("List of matched pdf ending offsets:", matched_footer_offsets)
 
 hash_object = hashlib.sha256(disk_image_data)
 hash_object2 = hashlib.sha256(disk_image_data2)
@@ -111,7 +111,7 @@ with open("Project2.dd", "rb") as file:
 for match in bmp_sig.finditer(bmp_image_data):
     offset = match.start()
     matched_offsets.append(offset)
-    print(f"Found header pattern at offset: {offset}")
+    print(f"Found bmp header pattern at offset: {offset}")
 
 '''for offset in matched_offsets:
         header_data = bmp_image_data[offset:offset + 10]
@@ -180,10 +180,10 @@ with open("Project2.dd", "rb") as file:
 for match in jpg_header_sig.finditer(jpg_image_data):
     offset = match.start()
     matched_offsets.append(offset)
-    print(f"Found header pattern at offset: {offset}")
+    print(f"Found jpg header pattern at offset: {offset}")
 
 # Print the list of matched offsets
-print("List of matched offsets:", matched_offsets)
+print("List of matched jpg header offsets:", matched_offsets)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
@@ -193,8 +193,8 @@ with open("Project2.dd", "rb") as file:
 for match in jpg_footer_sig.finditer(jpg_image_data2): 
     jpg_f_offset = match.start()
     matched_footer_offsets.append(jpg_f_offset) # and possibly this to another list
-    print(f"Found footer pattern at offset: {jpg_f_offset}")
-print("List of matched ending offsets:", matched_footer_offsets)
+    print(f"Found jpg footer pattern at offset: {jpg_f_offset}")
+print("List of matched jpg ending offsets:", matched_footer_offsets)
 
 hash_object = hashlib.sha256(jpg_image_data)
 hash_object2 = hashlib.sha256(jpg_image_data2)
@@ -236,10 +236,10 @@ with open("Project2.dd", "rb") as file:
 for match in png_header_sig.finditer(png_image_data):
     offset = match.start()
     matched_offsets.append(offset)
-    print(f"Found header pattern at offset: {offset}")
+    print(f"Found png header pattern at offset: {offset}")
 
 # Print the list of matched offsets
-print("List of matched offsets:", matched_offsets)
+print("List of png header matched offsets:", matched_offsets)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
 matched_footer_offsets =[] # I might have to change this
@@ -249,11 +249,11 @@ with open("Project2.dd", "rb") as file:
 for match in png_footer_sig.finditer(png_image_data2): 
     png_f_offset = match.start()
     matched_footer_offsets.append(png_f_offset) # and possibly this to another list
-    print(f"Found footer pattern at offset: {jpg_f_offset}")
-print("List of matched ending offsets:", matched_footer_offsets)
+    print(f"Found png footer pattern at offset: {jpg_f_offset}")
+print("List of matched png ending offsets:", matched_footer_offsets)
 
 hash_object = hashlib.sha256(png_image_data)
 hash_object2 = hashlib.sha256(png_image_data2)
 hash_hex = hash_object.hexdigest()
 hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
-print("SHA-256 Hash of the JPG file:", hash_hex, hash_hexf)
+print("SHA-256 Hash of the png file:", hash_hex, hash_hexf)
