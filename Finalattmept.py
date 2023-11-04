@@ -113,7 +113,7 @@ for match in bmp_sig.finditer(bmp_image_data):
     matched_offsets.append(offset)
     print(f"Found header pattern at offset: {offset}")
 
-for offset in matched_offsets:
+'''for offset in matched_offsets:
         header_data = bmp_image_data[offset:offset + 10]
 # Check if the header starts with "BM" (42 4D in hexadecimal)
         if header_data[:2] == b'BM':
@@ -123,7 +123,7 @@ for offset in matched_offsets:
         else:
             print(f"No valid BMP header at offset {offset}")
 # Print the list of matched offsets
-#print("List of matched offsets:", matched_offsets)
+#print("List of matched offsets:", matched_offsets)'''
 
 hash_object = hashlib.sha256(bmp_image_data)
 bmp_hex = hash_object.hexdigest()
