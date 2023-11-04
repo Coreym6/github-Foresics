@@ -75,7 +75,7 @@ with open(f"recovered_file_{carved_data[:20]}.pdf", "wb") as carved_file:
 #will fix later to the files, we at least got the offsets
 # also I need to add SHA-256 Function 
 
-bmp_sig = re.compile(b'\x42\x4D\x00\x00\x00\x00')# might have to edit this
+bmp_sig = re.compile(b'\x42\x4D')# might have to edit this
 bmp_footer_sig = re.compile(b'None')
 bmp_size = re.compile(b'77,942') # I'll either have to feed that in or possible the file size
 # the file size for the bmp according to the disk editor is 77,942
@@ -113,8 +113,17 @@ for match in bmp_sig.finditer(bmp_image_data):
     matched_offsets.append(offset)
     print(f"Found header pattern at offset: {offset}")
 
+for offset in matched_offsets:
+        header_data = bmp_image_data[offset:offset + 10]
+# Check if the header starts with "BM" (42 4D in hexadecimal)
+        if header_data[:2] == b'BM':
+            # Extract the 4-byte file size (little-endian)
+            file_size = int.from_bytes(bmp_image_data[2:6], byteorder='little')
+            print(f"BMP File Size at offset {offset}: {file_size} bytes")
+        else:
+            print(f"No valid BMP header at offset {offset}")
 # Print the list of matched offsets
-print("List of matched offsets:", matched_offsets)
+#print("List of matched offsets:", matched_offsets)
 
 hash_object = hashlib.sha256(bmp_image_data)
 bmp_hex = hash_object.hexdigest()
