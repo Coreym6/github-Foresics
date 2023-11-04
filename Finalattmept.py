@@ -1,5 +1,13 @@
 import re
 import hashlib# we will need this for the SHA-256 value
+''' Additional sources used for this project:
+https://www.garykessler.net/library/file_sigs.html
+https://stackoverflow.com/questions/26247808/how-to-get-exact-bitmap-file-size
+https://github.com/budrus123/disk-image-file-recovery/blob/main/main.py
+used a similar file signature feed in method to the project above^
+https://stackoverflow.com/questions/59904704/calculating-a-hash-for-entire-optical-media-disc-using-powershell
+^ gave us a quite decent idea for how to use the hashlib 
+'''
 
 pdf_sig = re.compile(b'\x25\x50\x44\x46')
 footer_patterns = [
