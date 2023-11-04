@@ -249,7 +249,7 @@ with open("Project2.dd", "rb") as file:
 for match in png_footer_sig.finditer(png_image_data2): 
     png_f_offset = match.start()
     matched_footer_offsets.append(png_f_offset) # and possibly this to another list
-    print(f"Found png footer pattern at offset: {jpg_f_offset}")
+    print(f"Found png footer pattern at offset: {png_f_offset}")
 print("List of matched png ending offsets:", matched_footer_offsets)
 
 hash_object = hashlib.sha256(png_image_data)
@@ -257,3 +257,68 @@ hash_object2 = hashlib.sha256(png_image_data2)
 hash_hex = hash_object.hexdigest()
 hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
 print("SHA-256 Hash of the png file:", hash_hex, hash_hexf)
+
+
+
+
+# START OF GIF RECOVERY FUNCTION
+gif_header_patterns = [
+    b'\x47\x49\x46\x38\x37\x61',
+    b'\x47\x49\x46\x38\x39\x61',
+] # more of the opposite of pdf with multiple footer sigs 
+
+# add in temp_filename variables
+gif_header_sig = re.compile(b'|'.join(gif_header_patterns))
+
+# START OF GIF RECOVERY FUNCTION
+
+gif_footer_sig = re.compile(b'\x00\x00\x3B')
+
+def gif_recov( gif_footer_sig, gif_header_sig):
+    # Compile the regex pattern using the header signature
+
+    #changed the pattern to the header of an pdf
+    #H = re.compile(header_sig)
+    header_to_bytes = gif_header_sig.encode('utf-8') 
+    footer_to_bytes = gif_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
+    #footer_to_bytes = pdf_footer.encode('utf-8')
+    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+    ''' There is multiple footers, here is the file sigs for this ones,
+    b'\x0A\x25\x25\x45\x4F\x46\x0A',
+        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
+        b'\x0A\x25\x25\x45\x4F\x46\x0A',
+        b'\x0A\x25\x25\x45\x4F\x46
+        I will likely have to approach it in a similar manner'''
+    # Create an empty list to store matched offsets
+matched_offsets = []
+matched_footer_offsets =[]
+# Read the disk image file
+with open("Project2.dd", "rb") as file:
+    gif_image_data = file.read()
+
+
+# Search for header pattern and store matched offsets
+for match in gif_header_sig.finditer(gif_image_data):
+    offset = match.start()
+    matched_offsets.append(offset)
+    print(f"Found gif header pattern at offset: {offset}")
+
+# Print the list of matched offsets
+print("List of gif header matched offsets:", matched_offsets)
+#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
+
+matched_footer_offsets =[] # I might have to change this
+with open("Project2.dd", "rb") as file:
+    gif_image_data2 = file.read()
+
+for match in gif_footer_sig.finditer(gif_image_data2): 
+    gif_f_offset = match.start()
+    matched_footer_offsets.append(gif_f_offset) # and possibly this to another list
+    print(f"Found gif footer pattern at offset: {gif_f_offset}")
+print("List of matched gif ending offsets:", matched_footer_offsets)
+
+hash_object = hashlib.sha256(gif_image_data)
+hash_object2 = hashlib.sha256(gif_image_data2)
+hash_hex = hash_object.hexdigest()
+hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
+print("SHA-256 Hash of the gif file:", hash_hex, hash_hexf)
