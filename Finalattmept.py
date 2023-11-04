@@ -200,4 +200,60 @@ hash_object = hashlib.sha256(jpg_image_data)
 hash_object2 = hashlib.sha256(jpg_image_data2)
 hash_hex = hash_object.hexdigest()
 hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
-print("SHA-256 Hash of the PDF file:", hash_hex, hash_hexf)
+print("SHA-256 Hash of the JPG file:", hash_hex, hash_hexf)
+
+
+
+# START OF PNG RECOVERY FUNCTION 
+
+png_header_sig = re.compile(b'\x89\x50\x4E\x47\x0D\x0A\x1A\x0A')
+png_footer_sig = re.compile(b'\x49\x45\x4E\x44\xAE\x42\x60\x82')
+
+def png_recov( png_footer_sig, png_header_sig):
+    # Compile the regex pattern using the header signature
+
+    #changed the pattern to the header of an pdf
+    #H = re.compile(header_sig)
+    header_to_bytes = png_header_sig.encode('utf-8') 
+    footer_to_bytes = png_footer_sig.encode('utf-8') # might have to add an encoding if that doesn't work
+    #footer_to_bytes = pdf_footer.encode('utf-8')
+    #footer_pattern = re.compile(b'\xFF\xD9') # this can be for the footer of the file
+    ''' There is multiple footers, here is the file sigs for this ones,
+    b'\x0A\x25\x25\x45\x4F\x46\x0A',
+        b'\x0D\x0A\x25\x25\x45\x4F\x46\x0D\x0A',
+        b'\x0A\x25\x25\x45\x4F\x46\x0A',
+        b'\x0A\x25\x25\x45\x4F\x46
+        I will likely have to approach it in a similar manner'''
+    # Create an empty list to store matched offsets
+matched_offsets = []
+matched_footer_offsets =[]
+# Read the disk image file
+with open("Project2.dd", "rb") as file:
+    png_image_data = file.read()
+
+
+# Search for header pattern and store matched offsets
+for match in png_header_sig.finditer(png_image_data):
+    offset = match.start()
+    matched_offsets.append(offset)
+    print(f"Found header pattern at offset: {offset}")
+
+# Print the list of matched offsets
+print("List of matched offsets:", matched_offsets)
+#header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
+
+matched_footer_offsets =[] # I might have to change this
+with open("Project2.dd", "rb") as file:
+    png_image_data2 = file.read()
+
+for match in png_footer_sig.finditer(png_image_data2): 
+    png_f_offset = match.start()
+    matched_footer_offsets.append(png_f_offset) # and possibly this to another list
+    print(f"Found footer pattern at offset: {jpg_f_offset}")
+print("List of matched ending offsets:", matched_footer_offsets)
+
+hash_object = hashlib.sha256(png_image_data)
+hash_object2 = hashlib.sha256(png_image_data2)
+hash_hex = hash_object.hexdigest()
+hash_hexf = hash_object2.hexdigest() # added this to test out SHA-256 hashlib
+print("SHA-256 Hash of the JPG file:", hash_hex, hash_hexf)
