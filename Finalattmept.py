@@ -113,12 +113,12 @@ for match in bmp_sig.finditer(bmp_image_data):
 print("List of matched offsets:", matched_offsets)
 #header_offsets = [match.start() for match in header_sig.finditer(disk_image_data)] # this is correct method,open diskimage.dd(head))
 
-matched_footer_offsets =[] # I might have to change this
+'''matched_footer_offsets =[] # I might have to change this
 with open("Project2.dd", "rb") as file:
     disk_image_data2 = file.read()
-
+# DOES NOT NEED THIS SECTION BECAUSE IT HAS NO FOOTER
 for match in bmp_footer_sig.finditer(disk_image_data2): 
     offset = match.start()
     bmp_footer_sig.append(offset) # and possibly this to another list
     print(f"Found footer pattern at offset: {offset}")
-print("List of matched ending offsets:", bmp_footer_sig)
+print("List of matched ending offsets:", bmp_footer_sig)'''
