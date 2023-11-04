@@ -15,7 +15,7 @@ pdf_footer_sig = re.compile(b'|'.join(footer_patterns))
 #b'\x0A\x25\x25\x45\x4F\x46\x0A',
 #b'\x0A\x25\x25\x45\x4F\x46') '''
 
-print("hello world")
+print("hello world") # test statment 
 def pdf_recov( pdf_sig, pdf_footer_sig):
     # Compile the regex pattern using the header signature
 
